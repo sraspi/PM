@@ -47,22 +47,22 @@ def on_close(event):
 
 
 plt.ion() # Interactive mode otherwise plot won't update in real time
-fig = plt.figure(figsize=(15, 15))
-fig.canvas.manager.set_window_title("TK 1.3")
+fig = plt.figure(figsize=(7, 9))
+fig.canvas.manager.set_window_title("TK 1.4")
 #fig.canvas.manager.full_screen_toggle()
 fig.canvas.mpl_connect("close_event", on_close) # Connect the plot window close event to function on_close
 ax = fig.add_subplot(111)
 ax2 = ax.twinx() # Get a second y axis
 
 (A0_line,) = ax.plot(x, y, label="A0", color="#FFFF00") #00549F is the RWTH blue color
-ax.set_ylabel("Temperatur [°C]", color="000000")
+ax.set_ylabel("Temperatur [°C]", color="#CC071E")
 
 (A1_line,) = ax.plot(x, y2, label="A1", color="#CC071E", linestyle="--") # #auf 2.y-Achse  CC071E is the RWTH red (both colors as defined in the official RWTH guide)
 #ax.set_ylabel("counts", color="#000000") #auf 2.y-Achse 
 
 
 (A2_line,) = ax2.plot(x, y3, label="A2", color="#00549F") #00FFFF
-ax2.set_ylabel("Druck [mbar]", color="#000000")
+ax2.set_ylabel("Druck [mbar]", color="#00549F")
 
 (A3_line,) = ax2.plot(x, y4, label="A3", color="#00FF00") #auf 2.y-Achse  00549F is the RWTH blue color
 #ax2.set_ylabel("pressure [mbar]", color="#000000") #auf 2.y-Achse 
@@ -76,12 +76,15 @@ plt.xlabel("Zeit", color="#000000")
 #Start = time.time()
 try:
     while True :
-        t_start = time.time()  
-        
+        t_start = time.time()
+        temperature1,pressure1,humidity1 = bme280.readBME280All()
+        temperature2,pressure2,humidity2 = bme280_77.readBME280All()
+        timestr = time.strftime("%Y%m%d_%H%M%S")
+        f = open(data,  "a")
+        f.write(timestr + ",   " + str(A0) + ",       " + str(A1) + ",      " + str(A2) + ",    "   +  str(A3)  + '\n')
+        f.close()
         
         if (timeout < 5):
-            temperature1,pressure1,humidity1 = bme280.readBME280All()
-            temperature2,pressure2,humidity2 = bme280_77.readBME280All()
             z = datetime.datetime.now()
             delta = z - x[-1]  # Last element in x is the timestamp of the last measurement!
             #A0 = adc.read_adc(0, 1)
@@ -123,10 +126,6 @@ try:
             fig.canvas.flush_events()
 
             
-            timestr = time.strftime("%Y%m%d_%H%M%S")
-            f = open(data,  "a")
-            f.write(timestr + ",   " + str(A0) + ",       " + str(A1) + ",      " + str(A2) + ",    "   +  str(A3)  + '\n')
-            f.close()
             t_end = time.time()
             timeout = (t_end-t_start)
             #print(timeout)
@@ -134,7 +133,7 @@ try:
         else:   
             timestr = time.strftime("%Y%m%d_%H%M%S")
             f = open(data,  "a")
-            f.write(timestr + " error by reading BME280 "  + '\n')
+            f.write(timestr + " error by diagramm "  + '\n')
             f.close()
             t_end = time.time()
         
