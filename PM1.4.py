@@ -22,7 +22,7 @@ A3 = 0
 timestr = time.strftime("%Y%m%d_%H%M%S")
 data = "/home/pi/PM/" + "PM_" + timestr+ ".txt"
 f = open(data,  "w")
-f.write("Datum/Zeit,         A0,          A1,          A2,         A3" + '\n')
+f.write("Datum/Zeit,         O2 [%],          CO2 [%]" + '\n')
 f.close()
 
 
@@ -107,7 +107,7 @@ try:
         
         timestr = time.strftime("%Y%m%d_%H%M%S")
         f = open(data,  "a")
-        f.write(timestr + ",   " + str(A0) + ",       " + str(A1) + ",      " + str(A2) + ",    "   +  str(A3)  + '\n')
+        f.write(timestr + ",   " + str(A0) + ",            " + str(A2) + '\n')
         f.close()
         time.sleep(0.999)
             
