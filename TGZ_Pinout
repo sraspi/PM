@@ -1,0 +1,17 @@
+Pin-Belegung TGZ1 und TGZ2 inkl. 1-wire.
+
+DS1820-3-adrig:
+ws-3,3V
+br-GND
+gn-GPIO4(7) data
+
+Stecker TGZ1:(dunkelgraues Kabel)
+br-Gnd-Pi-bl-6
+ws-Pi-br-GPIO17(11)
+ge-5V-Pi-rt-2
+
+Stecker TGZ2:(hellgraues Kabel)
+br-Gnd-Pi-bl-6
+ws-Pi-rt-GPIO18(12)
+
+jeweils im Stecker 3,3kOhm/2,7kOhm Spannungsteiler für Signal (5V/3,3V!)
